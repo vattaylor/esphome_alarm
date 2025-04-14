@@ -1,0 +1,598 @@
+#   This ESP Home confit is for David White’s Alarm box interface.
+#   This will show in  the Home Assistant:
+#        15 Zone with 
+#        Zone circuit voltage
+#        Number of triggers in the day
+#        Trigger status
+#        One relay 
+#        The power of the voltage of the alarm system. 
+
+#   The trigger threshold voltage can be set from within the device’s 
+#   entity form Home Assistant to cater for different alarm systems. 
+
+# System name
+esphome:
+  name: alarm-panel
+  friendly_name: Alarm Panel
+
+# ESP type
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+
+ 
+ota:
+  - platform: esphome
+
+#  WIFI Setup
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Alarm-Panel Fallback Hotspot"
+    password: !secret ap_password
+
+captive_portal:
+
+web_server:
+
+#  Setting up day count variables and setting them to 0 on boot
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: Europe/London
+    on_time:
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        then:
+          - lambda: |-
+              id(zone_1_count) = 0;
+              id(zone_2_count) = 0;
+              id(zone_3_count) = 0;
+              id(zone_4_count) = 0;
+              id(zone_5_count) = 0;
+              id(zone_6_count) = 0;
+              id(zone_7_count) = 0;
+              id(zone_8_count) = 0;
+              id(zone_9_count) = 0;
+              id(zone_10_count) = 0;
+              id(zone_11_count) = 0;
+              id(zone_12_count) = 0;
+              id(zone_13_count) = 0;
+              id(zone_14_count) = 0;
+              id(zone_15_count) = 0;
+
+# Setting up Relay
+switch:
+  - platform: gpio
+    pin: GPIO04
+    name: "Switch Somthing"
+    
+# MUX setup
+cd74hc4067:
+
+  - id: cd74hc4067_1
+    pin_s0: GPIO14
+    pin_s1: GPIO12
+    pin_s2: GPIO13
+    pin_s3: GPIO15
+
+# Setting up Zone and battery sensors
+sensor:
+  - platform: adc
+    id: adc_sensor
+    pin: A0
+
+  - platform: cd74hc4067
+    id: adc_0
+    number: 0
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 1"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_1
+    number: 1
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 2"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_2
+    number: 2
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 3"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_3
+    number: 3
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 4"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_4
+    number: 4
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 5"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_5
+    number: 5
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 6"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_6
+    number: 6
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 7"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_7
+    number: 7
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 8"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+  - platform: cd74hc4067
+    id: adc_8
+    number: 8
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "PSU"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+          
+- platform: cd74hc4067
+    id: adc_9
+    number: 9
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 9"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+          
+- platform: cd74hc4067
+    id: adc_10
+    number: 10
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 10"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+   
+- platform: cd74hc4067
+    id: adc_11
+    number: 11
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 11"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+   
+ - platform: cd74hc4067
+    id: adc_12
+    number: 12
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 12"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+- platform: cd74hc4067
+    id: adc_13
+    number: 13
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 13"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+ - platform: cd74hc4067
+    id: adc_14
+    number: 14
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 14"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+
+        
+- platform: cd74hc4067
+    id: adc_15
+    number: 15
+    update_interval: 100ms
+    sensor: adc_sensor
+    name: "Zone 15"
+    accuracy_decimals: 1
+    filters:
+      - lambda: |-
+          return(x*24.7678);
+      - or:
+          - delta: 0.1
+          - heartbeat: 10s
+        
+# report cout back 
+  - platform: template
+    name: "Zone 1 Day Count"
+    accuracy_decimals: 2
+    lambda: return id(zone_1_count);
+    unit_of_measurement: "Today"
+    update_interval: 10s 
+    
+  - platform: template
+    name: "Zone 2 Day Count"
+    lambda: 'return int(id(zone_2_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 3 Day Count"
+    lambda: 'return int(id(zone_3_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 4 Day Count"
+    lambda: 'return int(id(zone_4_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 5 Day Count"
+    lambda: 'return int(id(zone_5_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 6 Day Count"
+    lambda: 'return int(id(zone_6_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 7 Day Count"
+    lambda: 'return int(id(zone_7_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 8 Day Count"
+    lambda: 'return int(id(zone_8_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+
+  - platform: template
+    name: "Zone 9 Day Count"
+    lambda: 'return int(id(zone_9_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s
+    
+  - platform: template
+    name: "Zone 10 Day Count"
+    lambda: 'return int(id(zone_10_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+
+  - platform: template
+    name: "Zone 11 Day Count"
+    lambda: 'return int(id(zone_11_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+    
+  - platform: template
+    name: "Zone 12 Day Count"
+    lambda: 'return int(id(zone_12_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+    
+  - platform: template
+    name: "Zone 13 Day Count"
+    lambda: 'return int(id(zone_13_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+
+  - platform: template
+    name: "Zone 14 Day Count"
+    lambda: 'return int(id(zone_14_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+
+  - platform: template
+    name: "Zone 15 Day Count"
+    lambda: 'return int(id(zone_15_count));'
+    unit_of_measurement: "Today"
+    update_interval: 10s    
+
+
+# Zone switch if over threshold and increment count 
+binary_sensor:
+  - platform: template
+    name: "Zone 1 trigger"
+    lambda: 'return id(adc_0).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_1_count) += 1;'
+      
+  - platform: template
+    name: "Zone 2 trigger"
+    lambda: 'return id(adc_1).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_2_count) += 1;'
+      
+  - platform: template
+    name: "Zone 3 trigger"
+    lambda: 'return id(adc_2).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_3_count) += 1;'
+      
+  - platform: template
+    name: "Zone 4 trigger"
+    lambda: 'return id(adc_3).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_4_count) += 1;'
+      
+  - platform: template
+    name: "Zone 5 trigger"
+    lambda: 'return id(adc_4).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_5_count) += 1;'
+      
+  - platform: template
+    name: "Zone 6 trigger"
+    lambda: 'return id(adc_5).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_6_count) += 1;'
+      
+  - platform: template
+    name: "Zone 7 trigger"
+    lambda: 'return id(adc_6).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_7_count) += 1;'
+      
+  - platform: template
+    name: "Zone 8 trigger"
+    lambda: 'return id(adc_7).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_8_count) += 1;'
+      
+  - platform: template
+    name: "Zone 9 trigger"
+    lambda: 'return id(adc_9).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_9_count) += 1;' 
+
+  - platform: template
+    name: "Zone 10 trigger"
+    lambda: 'return id(adc_10).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_10_count) += 1;'   
+
+  - platform: template
+    name: "Zone 11 trigger"
+    lambda: 'return id(adc_11).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_11_count) += 1;'    
+
+  - platform: template
+    name: "Zone 12 trigger"
+    lambda: 'return id(adc_12).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_12_count) += 1;'  
+
+  - platform: template
+    name: "Zone 13 trigger"
+    lambda: 'return id(adc_13).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_13_count) += 1;'      
+
+  - platform: template
+    name: "Zone 14 trigger"
+    lambda: 'return id(adc_14).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_14_count) += 1;'
+      
+  - platform: template
+    name: "Zone 15 trigger"
+    lambda: 'return id(adc_15).state > id(threshold).state;'
+    on_press:
+      - lambda: 'id(zone_15_count) += 1;'      
+
+# Setting up Trigger Threshold
+number:
+  - platform: template
+    name: "Trigger Threshold"
+    id: threshold
+    min_value: 0
+    max_value: 28
+    step: 1
+    initial_value: 3
+    optimistic: true 
+
+# Setting up Globals
+globals:
+  - id: zone_1_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_2_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_3_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_4_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_5_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_6_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_7_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_8_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+  - id: zone_9_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_10_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_11_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_12_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_13_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_14_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+  - id: zone_15_count
+    type: int
+    restore_value: no
+    initial_value: '0'
+    
+    
+    
+    
+    
+
+
