@@ -13,6 +13,7 @@ The trigger threshold voltage can be set from within the device’s entity form 
 
 
 ![image](./image/ha.png)
+![image](./image/ha2.png)
 
 ![image](./image/1.png)
 ![image](./image/2.png)
