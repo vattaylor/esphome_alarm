@@ -10,7 +10,7 @@ This will show in the Home Assistant:
 - The power of the voltage of the alarm system.
 
 The trigger threshold voltage can be set from within the device’s entity form Home Assistant to cater for different alarm systems.
-[alt text](./image/ha.png)
+![image](./image/ha.png)
 
 [alt text](1.png)
 [alt text](2.png)
