@@ -414,90 +414,105 @@ sensor:
 binary_sensor:
   - platform: template
     name: "Zone 1 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_0).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_1_count) += 1;'
       
   - platform: template
     name: "Zone 2 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_1).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_2_count) += 1;'
       
   - platform: template
     name: "Zone 3 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_2).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_3_count) += 1;'
       
   - platform: template
     name: "Zone 4 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_3).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_4_count) += 1;'
       
   - platform: template
     name: "Zone 5 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_4).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_5_count) += 1;'
       
   - platform: template
     name: "Zone 6 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_5).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_6_count) += 1;'
       
   - platform: template
     name: "Zone 7 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_6).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_7_count) += 1;'
       
   - platform: template
     name: "Zone 8 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_7).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_8_count) += 1;'
       
   - platform: template
     name: "Zone 9 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_9).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_9_count) += 1;' 
 
   - platform: template
     name: "Zone 10 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_10).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_10_count) += 1;'   
 
   - platform: template
     name: "Zone 11 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_11).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_11_count) += 1;'    
 
   - platform: template
     name: "Zone 12 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_12).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_12_count) += 1;'  
 
   - platform: template
     name: "Zone 13 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_13).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_13_count) += 1;'      
 
   - platform: template
     name: "Zone 14 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_14).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_14_count) += 1;'
       
   - platform: template
     name: "Zone 15 trigger"
+    device_class: "occupancy"
     lambda: 'return id(adc_15).state > id(threshold).state;'
     on_press:
       - lambda: 'id(zone_15_count) += 1;'      
@@ -594,5 +609,6 @@ globals:
     
     
     
+
 
 
